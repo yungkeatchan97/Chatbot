@@ -27,3 +27,5 @@ Route::apiResources([
 Route::get('students/{student}/handbook', 'StudentController@handbook');
 Route::get('students/{student}/registeredSubjects', 'StudentController@subjects');
 Route::get('handbooks/{handbook}/subjects', 'HandbookController@subjects');
+
+Route::post('webhook', 'WebhookController@webhook');
