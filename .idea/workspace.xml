@@ -28,6 +28,9 @@
     <expand />
     <select />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
@@ -153,7 +156,7 @@
       <option name="presentableId" value="Default" />
       <updated>1576501340955</updated>
       <workItem from="1576501342678" duration="11795000" />
-      <workItem from="1576657640992" duration="873000" />
+      <workItem from="1576657640992" duration="1223000" />
     </task>
     <servers />
   </component>
