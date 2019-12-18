@@ -2,18 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Student;
 use Illuminate\Http\Request;
 
 class WebhookController extends Controller
 {
     public function webhook(Request $request)
     {
-        $response = 'hi?';
+        $queryResult = ($request->get('queryResult'))['action'];
+
+        $response = $this->findAction($queryResult);
 
         $fulfillment = array(
             "fulfillmentText" => $response
         );
 
-        echo(json_encode($fulfillment));
+        return json_encode($fulfillment);
+    }
+
+    private function findAction($queryResult)
+    {
+        switch ($queryResult){
+            case 'getStudents':
+                return $this->getStudents();
+            default:
+                return $this->defaultFallback();
+        }
+    }
+
+    private function getStudents(){
+        $student = Student::find(1);
+        return json_encode($student);
+    }
+
+    private function defaultFallback(){
+        return "I can't understand";
     }
 }
