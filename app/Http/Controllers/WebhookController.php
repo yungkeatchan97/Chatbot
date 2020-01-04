@@ -28,6 +28,8 @@ class WebhookController extends Controller
         switch ($queryResult){
             case 'getStudents':
                 return $this->getStudents();
+            case 'getHandbook':
+                return $this->getHandbook();
             default:
                 return $this->defaultFallback();
         }
@@ -35,6 +37,12 @@ class WebhookController extends Controller
 
     private function getStudents(){
         $student = Student::all();
+
+        return json_encode($student);
+    }
+
+    private function getHandbook(){
+        $student = Handbook::all();
 
         return json_encode($student);
     }
