@@ -33,8 +33,8 @@ class WebhookController extends Controller
         }
     }
 
-    private function getStudents($queryResult){
-        $student = Student::find($queryResult);
+    private function getStudents(){
+        $student = Student::find(7);
         return json_encode($student);
     }
 
