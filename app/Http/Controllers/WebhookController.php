@@ -26,7 +26,6 @@ class WebhookController extends Controller
     {
 
         switch ($queryResult){
-
             case 'getStudents':
                 return $this->getStudents();
             default:
@@ -36,6 +35,7 @@ class WebhookController extends Controller
 
     private function getStudents(){
         $student = Student::all();
+
         return json_encode($student);
     }
 
