@@ -12,18 +12,22 @@ class WebhookController extends Controller
     {
         $queryResult = ($request->get('queryResult'))['action'];
 
+
         $response = $this->findAction($queryResult);
 
         $fulfillment = array(
             "fulfillmentText" => $response
         );
 
+
         return json_encode($fulfillment);
     }
 
     private function findAction($queryResult)
     {
+
         switch ($queryResult.parameters.getMatric){
+
             case 'getStudents':
                 return $this->getStudents();
             case 'getHandbook':
@@ -38,8 +42,12 @@ class WebhookController extends Controller
     }
 
     private function getStudents(){
-        $student = Student::find(7);
-        return json_encode($student);
+        $student = Student::all();
+        foreach ($student as $students) {
+            $aa = $student->name;
+            return $aa;
+        }
+//        return json_encode($student);
     }
 
     private function getHandbooks(){
