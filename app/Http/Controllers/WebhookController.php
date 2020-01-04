@@ -23,13 +23,15 @@ class WebhookController extends Controller
 
     private function findAction($queryResult)
     {
-        switch ($queryResult){
+        switch ($queryResult.parameters.getMatric){
             case 'getStudents':
                 return $this->getStudents();
             case 'getHandbook':
                 return $this->getHandbooks();
             case 'getElective':
                 return $this->getElective();
+            case 123:
+                return $this->getMatric();
             default:
                 return $this->defaultFallback();
         }
@@ -48,6 +50,11 @@ class WebhookController extends Controller
     private function getElective(){
         $handbook = Handbook::find(5);
         return json_encode($handbook);
+    }
+
+    private function getMatric(){
+        $matric = Student::find(10);
+        return json_encode($matric);
     }
 
     private function defaultFallback(){
