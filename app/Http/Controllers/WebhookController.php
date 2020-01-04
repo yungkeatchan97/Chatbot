@@ -28,7 +28,7 @@ class WebhookController extends Controller
                 return $this->getStudents();
             case 'getHandbook':
                 return $this->getHandbooks();
-            case 'getMatric':
+            case 'getElective':
                 return $this->getElective();
             default:
                 return $this->defaultFallback();
