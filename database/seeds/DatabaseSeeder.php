@@ -24,16 +24,11 @@ class DatabaseSeeder extends Seeder
         factory(Subject::class, 300)->create();
 
         foreach (Course::all() as $course){
-            $codes = array();
-            $courses = Course::all('code');
-            foreach($courses as $cours){
-                array_push($codes, $cours->code);
-            }
             for ($i=2015; $i<2021;$i++){
                 Handbook::create([
                     'year' => $i,
                     'total_credit_hour' => $faker->numberBetween(120, 130),
-                    'course_code' => $faker->randomElement($codes)
+                    'course_code' => $course->code
                 ]);
             }
         }
