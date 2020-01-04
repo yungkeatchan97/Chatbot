@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Student;
+use App\Handbook;
 use Illuminate\Http\Request;
 
 class WebhookController extends Controller
@@ -25,6 +26,8 @@ class WebhookController extends Controller
         switch ($queryResult){
             case 'getStudents':
                 return $this->getStudents();
+            case 'getHandbook':
+                return $this->getHandbooks();
             default:
                 return $this->defaultFallback();
         }
@@ -33,6 +36,11 @@ class WebhookController extends Controller
     private function getStudents(){
         $student = Student::find(7);
         return json_encode($student);
+    }
+
+    private function getHandbooks(){
+        $handbook = Handbook::find(3);
+        return json_encode($handbook);
     }
 
     private function defaultFallback(){
