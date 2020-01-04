@@ -28,6 +28,8 @@ class WebhookController extends Controller
                 return $this->getStudents();
             case 'getHandbook':
                 return $this->getHandbooks();
+            case 'getMatric':
+                return $this->getElective();
             default:
                 return $this->defaultFallback();
         }
@@ -40,6 +42,11 @@ class WebhookController extends Controller
 
     private function getHandbooks(){
         $handbook = Handbook::find(3);
+        return json_encode($handbook);
+    }
+
+    private function getElective(){
+        $handbook = Handbook::find(5);
         return json_encode($handbook);
     }
 
