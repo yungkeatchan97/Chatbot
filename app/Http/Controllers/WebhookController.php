@@ -37,14 +37,12 @@ class WebhookController extends Controller
 
     private function getStudents(){
         $student = Student::find(1);
-
         return json_encode($student);
     }
 
     private function getHandbook(){
-        $student = Handbook::find(2);
-
-        return json_encode($student);
+        $handbook = Handbook::find(2);
+        return json_encode($handbook);
     }
 
     private function defaultFallback(){
