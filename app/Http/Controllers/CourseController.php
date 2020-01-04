@@ -14,7 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::all();
+        $courses = Course::with(['students', 'handbooks'])->get();
         return json_encode($courses);
     }
 
@@ -40,7 +40,7 @@ class CourseController extends Controller
      */
     public function show($course)
     {
-        $course = Course::where('code', $course)->get();
+        $course = Course::with(['students', 'handbooks'])->where('code', $course)->get();
         return json_encode($course);
     }
 

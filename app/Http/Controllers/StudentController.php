@@ -14,7 +14,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::with(['handbook', 'registeredSubjects', 'course'])->get();
         return json_encode($students);
     }
 
@@ -42,7 +42,7 @@ class StudentController extends Controller
      */
     public function show($student)
     {
-        $student = Student::where('matric_no', $student)->get();
+        $student = Student::with(['handbook', 'registeredSubjects', 'course'])->where('matric_no', $student)->get();
         return json_encode($student);
     }
 
@@ -73,17 +73,4 @@ class StudentController extends Controller
         $student = Student::where('matric_no', $student)->get();
         return json_encode($student->delete());
     }
-
-    public function handbook($student)
-    {
-        $student = Student::where('matric_no', $student)->firstOrFail();
-        return json_encode($student->handbook());
-    }
-
-    public function subjects($student)
-    {
-        $student = Student::where('matric_no', $student)->firstOrFail();
-        return json_encode($student->registeredSubjects);
-    }
-
 }

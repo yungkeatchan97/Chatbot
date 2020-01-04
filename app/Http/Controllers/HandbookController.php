@@ -14,7 +14,7 @@ class HandbookController extends Controller
      */
     public function index()
     {
-        $handbooks = Handbook::all();
+        $handbooks = Handbook::with(['course', 'subjects'])->get();
         return json_encode($handbooks);
     }
 
@@ -41,7 +41,7 @@ class HandbookController extends Controller
      */
     public function show(Handbook $handbook)
     {
-        $handbook = Handbook::findOrFail($handbook);
+        $handbook = Handbook::with(['course', 'subjects'])->findOrFail($handbook);
         return json_encode($handbook);
     }
 
@@ -73,9 +73,4 @@ class HandbookController extends Controller
         return json_encode($handbook->delete());
     }
 
-    public function subjects($handbook)
-    {
-        $handbook = Handbook::findOrFail($handbook);
-        return json_encode($handbook->subjects);
-    }
 }
