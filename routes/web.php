@@ -12,6 +12,7 @@
 */
 
 use App\Course;
+use App\Student;
 use App\Subject;
 
 Route::get('/', function () {
@@ -19,10 +20,6 @@ Route::get('/', function () {
 });
 
 //Route::get('/test', function (){
-//    $subject_ids = array();
-//    $subjects = Subject::all('id');
-//    foreach($subjects as $subject){
-//        array_push($subject_ids, $subject->id);
-//    }
-//    return $subject_ids;
+//    return Student::with('handbook')->find(1);
+////    return Student::find(1)->handbook;
 //});
