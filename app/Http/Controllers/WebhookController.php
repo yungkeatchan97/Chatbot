@@ -36,13 +36,13 @@ class WebhookController extends Controller
     }
 
     private function getStudents(){
-        $student = Student::all();
+        $student = Student::find(1);
 
         return json_encode($student);
     }
 
     private function getHandbook(){
-        $student = Handbook::all();
+        $student = Handbook::find(2);
 
         return json_encode($student);
     }
