@@ -26,6 +26,6 @@ class Student extends Model
     }
 
     public function handbook(){
-        return $this->course->handbooks->where('year', $this->starting_year)->first();
+        return $this->course()->handbooks->where('year', $this->starting_year)->first();
     }
 }
