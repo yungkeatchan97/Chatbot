@@ -11,11 +11,13 @@ class WebhookController extends Controller
     {
         $queryResult = ($request->get('queryResult'))['action'];
 
+
         $response = $this->findAction($queryResult);
 
         $fulfillment = array(
             "fulfillmentText" => $response
         );
+
 
         return json_encode($fulfillment);
     }
