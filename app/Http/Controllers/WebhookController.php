@@ -26,7 +26,7 @@ class WebhookController extends Controller
     private function findAction($queryResult)
     {
 
-        switch ($queryResult.parameters.getMatric){
+        switch ($queryResult){
 
             case 'getStudents':
                 return $this->getStudents();
