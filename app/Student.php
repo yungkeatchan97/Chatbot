@@ -26,6 +26,6 @@ class Student extends Model
     }
 
     public function handbook(){
-        return $this->course()->handbooks->where('year', $this->starting_year)->first();
+        return $this->belongsTo('App\Handbook', 'course_code','course_code')->where('year', '=', $this->starting_year);
     }
 }
