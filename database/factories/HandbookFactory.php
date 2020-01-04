@@ -14,7 +14,7 @@ $factory->define(Handbook::class, function (Faker $faker) {
     }
 
     return [
-        'year' => $faker->year,
+        'year' => $faker->numberBetween(2015,2020),
         'total_credit_hour' => $faker->numberBetween(120, 130),
         'course_code' => $faker->randomElement($codes)
     ];

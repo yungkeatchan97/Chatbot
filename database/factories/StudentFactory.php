@@ -16,7 +16,7 @@ $factory->define(Student::class, function (Faker $faker) {
     return [
         'matric_no' => $faker->unique()->randomNumber(6),
         'name' => $faker->name,
-        'starting_year' => $faker->year,
+        'starting_year' => $faker->numberBetween(2015,2020),
         'course_code' => $faker->randomElement($codes)
     ];
 });

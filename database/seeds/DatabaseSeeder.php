@@ -19,10 +19,24 @@ class DatabaseSeeder extends Seeder
     public function run(Faker $faker)
     {
         // $this->call(UsersTableSeeder::class);
-//        factory(Course::class, 5)->create();
-//        factory(Student::class, 50)->create();
-//        factory(Handbook::class, 20)->create();
-//        factory(Subject::class, 300)->create();
+        factory(Course::class, 5)->create();
+        factory(Student::class, 50)->create();
+        factory(Subject::class, 300)->create();
+
+        foreach (Course::all() as $course){
+            $codes = array();
+            $courses = Course::all('code');
+            foreach($courses as $cours){
+                array_push($codes, $cours->code);
+            }
+            for ($i=2015; $i<2021;$i++){
+                Handbook::create([
+                    'year' => $i,
+                    'total_credit_hour' => $faker->numberBetween(120, 130),
+                    'course_code' => $faker->randomElement($codes)
+                ]);
+            }
+        }
 
         $subject_ids = array();
         $subjects = Subject::all('id');
@@ -32,7 +46,7 @@ class DatabaseSeeder extends Seeder
 
         foreach (Handbook::all() as $handbook){
             $i = 0;
-            while ($i<20){
+            while ($i<30){
                 DB::table('has_subjects')->insertOrIgnore([
                     'handbook_id' => $handbook->id,
                     'required' => $faker->boolean,
@@ -44,11 +58,12 @@ class DatabaseSeeder extends Seeder
 
         foreach (Student::all() as $student){
             $i = 0;
-            while ($i<20){
+            $j= $faker->numberBetween(20,25);
+            while ($i<$j){
                 DB::table('registered_subjects')->insertOrIgnore([
                     'student_id' => $student->id,
                     'subject_id' => $faker->randomElement($subject_ids),
-                    'result' => $faker->randomFloat(2, 0, 4)
+                    'result' => $faker->randomFloat(2, 2, 4)
                 ]);
                 $i++;
             }
