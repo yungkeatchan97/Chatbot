@@ -7,7 +7,9 @@ use App\Handbook;
 use App\Subject;
 use App\Course;
 use Illuminate\Http\Request;
-require __DIR__ . '/twilio-php-master/src/Twilio/autoload.php';
+
+//install ==> composer require twilio/sdk
+require __DIR__ . "/vendor/autoload.php";
 use Twilio\Rest\Client;
 
 class WebhookController extends Controller
@@ -15,21 +17,17 @@ class WebhookController extends Controller
     public function webhook(Request $request)
     {
         $queryResult = ($request->get('queryResult'))['action'];
-
-
         $response = $this->findAction($queryResult);
 
-        $fulfillment = array(
-            "fulfillmentText" => $response
-        );
+        // $fulfillment = array(
+        //     "fulfillmentText" => $response
+        // );
 
-
-        return json_encode($fulfillment);
+        // return json_encode($fulfillment);
     }
 
     private function findAction($queryResult)
     {
-
         switch ($queryResult){
             case 'getStudents':
                 return $this->getStudents();
@@ -71,12 +69,14 @@ class WebhookController extends Controller
         $token = "56935569ff8bdec69eeee97725ea7b37";
         $client = new Client($sid, $token);
         $client->messages->create(
-            "+601116408278",
+            "whatsapp:+601116408278",
             array(
-                'from' => "+14155238886",
-                'body' => "Hi! Your Image"
+                'from' => "whatsapp:+14155238886",
+                'body' => "Hi! Your Image",
+                'mediaUrl' => "https://images.pexels.com/photos/34950/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
             )
         );
+
     }
 
     private function defaultFallback(){
