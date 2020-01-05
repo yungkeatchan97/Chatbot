@@ -68,7 +68,7 @@ class WebhookController extends Controller
         $sid = "AC1c00c8c6658ccd0d856890662cdaf094";
         $token = "56935569ff8bdec69eeee97725ea7b37";
         $client = new Client($sid, $token);
-        $client->messages->create(
+        return $client->messages->create(
             "whatsapp:+601116408278",
             array(
                 'from' => "whatsapp:+14155238886",
@@ -76,7 +76,6 @@ class WebhookController extends Controller
                 'mediaUrl' => "https://images.pexels.com/photos/34950/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
             )
         );
-
     }
 
     private function defaultFallback(){
