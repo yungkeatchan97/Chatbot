@@ -74,7 +74,7 @@ class WebhookController extends Controller
             "whatsapp:+601116408278",
             array(
                 'from' => "whatsapp:+14155238886",
-                'body' => "Hi Joe! Please find your boarding pass attached. Flight OA2345 departs at 11 pm PST.",
+                'body' => "Hi! Your Image",
                 'mediaUrl' => "https://emerald-coral-3661.twil.io/assets/2-OwlAir-Upcoming-Trip.PNG",
             )
         );
