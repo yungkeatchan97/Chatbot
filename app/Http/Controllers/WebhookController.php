@@ -7,7 +7,7 @@ use App\Handbook;
 use App\Subject;
 use App\Course;
 use Illuminate\Http\Request;
-require_once '/path/to/vendor/autoload.php';
+require __DIR__ . '/twilio-php-master/src/Twilio/autoload.php';
 use Twilio\Rest\Client;
 
 class WebhookController extends Controller
@@ -71,11 +71,10 @@ class WebhookController extends Controller
         $token = "56935569ff8bdec69eeee97725ea7b37";
         $client = new Client($sid, $token);
         $client->messages->create(
-            "whatsapp:+601116408278",
+            "+601116408278",
             array(
-                'from' => "whatsapp:+14155238886",
-                'body' => "Hi! Your Image",
-                'mediaUrl' => "https://emerald-coral-3661.twil.io/assets/2-OwlAir-Upcoming-Trip.PNG",
+                'from' => "+14155238886",
+                'body' => "Hi! Your Image"
             )
         );
     }
