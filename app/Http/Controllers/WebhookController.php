@@ -7,6 +7,8 @@ use App\Handbook;
 use App\Subject;
 use App\Course;
 use Illuminate\Http\Request;
+require_once '/path/to/vendor/autoload.php';
+use Twilio\Rest\Client;
 
 class WebhookController extends Controller
 {
@@ -60,6 +62,20 @@ class WebhookController extends Controller
     private function getSubject(){
         $subject = Subject::find(4);
         return json_encode($subject);
+    }
+
+    private function sendImage(){
+        $sid = "AC1c00c8c6658ccd0d856890662cdaf094";
+        $token = "56935569ff8bdec69eeee97725ea7b37";
+        $client = new Client($sid, $token);
+        $client->messages->create(
+            "whatsapp:+6011-16408278",
+            array(
+                'from' => "whatsapp:+14155238886",
+                'body' => "Hi Joe! Please find your boarding pass attached. Flight OA2345 departs at 11 pm PST.",
+                'mediaUrl' => "https://emerald-coral-3661.twil.io/assets/2-OwlAir-Upcoming-Trip.PNG",
+            )
+        );
     }
 
     private function defaultFallback(){
