@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Student;
+use App\Handbook;
+use App\Subject;
+use App\Course;
 use Illuminate\Http\Request;
 
 class WebhookController extends Controller
@@ -30,6 +33,10 @@ class WebhookController extends Controller
                 return $this->getStudents();
             case 'getHandbook':
                 return $this->getHandbook();
+            case 'getCourse':
+                return $this->getCourse();
+            case 'getSubject':
+                return $this->getSubject();
             default:
                 return $this->defaultFallback();
         }
@@ -43,6 +50,16 @@ class WebhookController extends Controller
     private function getHandbook(){
         $handbook = Handbook::find(2);
         return json_encode($handbook);
+    }
+
+    private function getCourse(){
+        $course = Course::find(3);
+        return json_encode($course);
+    }
+
+    private function getSubject(){
+        $subject = Subject::find(4);
+        return json_encode($subject);
     }
 
     private function defaultFallback(){
