@@ -33,6 +33,8 @@ class WebhookController extends Controller
                 return $this->getHandbook($outputContexts['MatricNumber']);
             case 'canGraduate':
                 return $this->canGraduate($outputContexts['MatricNumber']);
+            case 'RegisterNewSubject.WhatSubject':
+                return $this->whatSubject($outputContexts['MatricNumber']);
             case 'getCourse':
                 return $this->getCourse();
             case 'getSubject':
@@ -86,7 +88,7 @@ class WebhookController extends Controller
         return $response;
     }
 
-    private function canGraduate($matricNumber)
+    private function findRequiredLack($matricNumber)
     {
         $student = Student::where('matric_no', '=', $matricNumber)->first();
         $registereds = $student->registeredSubjects;
@@ -104,6 +106,34 @@ class WebhookController extends Controller
                 array_push($lack, $needed);
             }
         }
+        return $lack;
+    }
+
+    private function findOptionalLack($matricNumber)
+    {
+        $student = Student::where('matric_no', '=', $matricNumber)->first();
+        $registereds = $student->registeredSubjects;
+        $neededs = $student->handbook->optionalSubjects;
+        $lack = array();
+        foreach ($neededs as $needed){
+            $found = false;
+            foreach ($registereds as $registered){
+                if ($needed->id == $registered->id){
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found){
+                array_push($lack, $needed);
+            }
+        }
+        return $lack;
+    }
+
+    private function canGraduate($matricNumber)
+    {
+        $student = Student::where('matric_no', '=', $matricNumber)->first();
+        $lack = $this->findRequiredLack($matricNumber);
         if (empty($lack) && $student->creditHour >= $student->handbook->total_credit_hour){
             $response = "Yes, you can graduate";
         }
@@ -115,6 +145,22 @@ class WebhookController extends Controller
                 $response .= $item->code."   ".$item->name."\n";
             }
         };
+        return $response;
+    }
+
+    private function whatSubject($matricNumber)
+    {
+        $student = Student::where('matric_no', '=', $matricNumber)->first();
+        $lack = $this->findRequiredLack($matricNumber);
+        $response = "These are subjects that you MUST take but haven't:";
+        foreach ($lack as $item){
+            $response .= $item->code."   ".$item->name."\n";
+        }
+        $lack = $this->findOptionalLack($matricNumber);
+        $response .= "These are subjects that you CAN take but haven't:";
+        foreach ($lack as $item){
+            $response .= $item->code."   ".$item->name."\n";
+        }
         return $response;
     }
 
@@ -131,4 +177,6 @@ class WebhookController extends Controller
     private function defaultFallback(){
         return "I can't understand";
     }
+
+
 }
