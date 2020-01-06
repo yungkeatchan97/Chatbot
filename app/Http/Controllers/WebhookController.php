@@ -17,6 +17,7 @@ class WebhookController extends Controller
     public function webhook(Request $request)
     {
         $queryResult = ($request->get('queryResult'))['action'];
+        $parameter = ($request->get('queryResult'))['action'];
         $response = $this->findAction($queryResult);
 
         $fulfillment = array(
@@ -37,8 +38,6 @@ class WebhookController extends Controller
                 return $this->getCourse();
             case 'getSubject':
                 return $this->getSubject();
-            case 'sendImage':
-                return $this->sendImage();
             default:
                 return $this->defaultFallback();
         }
@@ -62,20 +61,6 @@ class WebhookController extends Controller
     private function getSubject(){
         $subject = Subject::find(4);
         return json_encode($subject);
-    }
-
-    private function sendImage(){
-        $sid = "AC1c00c8c6658ccd0d856890662cdaf094";
-        $token = "56935569ff8bdec69eeee97725ea7b37";
-        $client = new Client($sid, $token);
-        return $client->messages->create(
-            "whatsapp:+601116408278",
-            array(
-                'from' => "whatsapp:+14155238886",
-                'body' => "Hi! Your Image",
-                'mediaUrl' => "https://images.pexels.com/photos/34950/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-            )
-        );
     }
 
     private function defaultFallback(){
