@@ -19,21 +19,3 @@ use App\Subject;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/test', function (){
-//    return Student::with('handbook')->find(1);
-//    return Student::find(1)->handbook;
-    return Handbook::find(1)->subjects;
-});
-
-Route::get('/test2', function (){
-//    return Student::with('handbook')->find(1);
-//    return Student::find(1)->handbook;
-    return Handbook::find(1)->requiredSubjects;
-});
-
-Route::get('/test3', function (){
-//    return Student::with('handbook')->find(1);
-//    return Student::find(1)->handbook;
-    return Handbook::find(1)->optionalSubjects;
-});

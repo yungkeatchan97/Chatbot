@@ -51,14 +51,19 @@ class WebhookController extends Controller
     private function getHandbook($matricNumber){
         $handbook = Student::where('matric_no', '=', $matricNumber)->first()->handbook;
         $course = Course::where('code', '=', $handbook->course_code)->first();
-        $subjects = $handbook->subjects;
+        $requiredSubjects = $handbook->requiredSubjects;
+        $optionalSubjects = $handbook->optionalSubjects;
         $response = "Your handbook:\nCourse : ".$course->name
             ."\nYear : ".$handbook->year
-            ."\nSubjects Required:";
-//        foreach ($subjects as $subject) {
-//            if ($subject->)
-//        }
-        return json_encode($handbook);
+            ."\nRequired Subjects:";
+        foreach ($requiredSubjects as $subject) {
+            $response .= $subject->code."   ".$subject->name."\n";
+        }
+        $response .= "Optional Subjects:";
+        foreach ($optionalSubjects as $subject) {
+            $response .= $subject->code."   ".$subject->name;
+        }
+        return $response;
     }
 
     private function getCourse(){
