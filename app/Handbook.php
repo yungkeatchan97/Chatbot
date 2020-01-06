@@ -20,6 +20,16 @@ class Handbook extends Model
         return $this->belongsToMany('App\Subject', 'has_subjects');
     }
 
+    public function requiredSubjects()
+    {
+        return $this->belongsToMany('App\Subject', 'has_subjects')->where("has_subjects.required", "=", "t");
+    }
+
+    public function optionalSubjects()
+    {
+        return $this->belongsToMany('App\Subject', 'has_subjects')->where("has_subjects.required", "=", "f");
+    }
+
     public function course(){
         return $this->belongsTo('App\Course', 'course_code', 'code');
     }
