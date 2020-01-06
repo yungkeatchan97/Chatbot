@@ -230,7 +230,7 @@ class WebhookController extends Controller
             return "I'm sorry but the subject code you provided does not match any record in our database. Please try again.";
         }
         foreach ($student->registeredSubjects as $registeredSubject){
-            if ($registeredSubject->code == $subject->code && $registeredSubject->result == 4){
+            if ($registeredSubject->code == $subject->code){
                 return "I'm sorry but you have registered this subject and get A";
             }
         }
