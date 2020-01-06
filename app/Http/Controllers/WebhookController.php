@@ -89,8 +89,13 @@ class WebhookController extends Controller
         if (empty($lack) && $student->creditHour >= $student->handbook->total_credit_hour){
             $response = "Yes, you can graduate";
         }
-        else{
-            $response = "No, you cannot graduate";
+        elseif (empty($lack)){
+            $response = "No, you cannot graduate. You need at least ".$student->handbook->total_credit_hour." to graduate but you have only ".$student->creditHour;
+        }else{
+            $response = "No, you cannot graduate. You still need to take the following subjects:\n";
+            foreach ($lack as $item){
+                $response .= $item->code."   ".$item->name."\n";
+            }
         };
         return $response;
     }
