@@ -231,7 +231,7 @@ class WebhookController extends Controller
         }
         foreach ($student->registeredSubjects as $registeredSubject){
             if ($registeredSubject->code == $subject->code){
-                return "I'm sorry but you have registered this subject and get A";
+                return "I'm sorry but you have registered this subject";
             }
         }
         if (is_null(DB::transaction(function () use ($subject, $student) {
