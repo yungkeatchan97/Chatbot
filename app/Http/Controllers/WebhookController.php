@@ -8,10 +8,6 @@ use App\Subject;
 use App\Course;
 use Illuminate\Http\Request;
 
-//install ==> composer require twilio/sdk
-require __DIR__ . "/vendor/autoload.php";
-use Twilio\Rest\Client;
-
 class WebhookController extends Controller
 {
     public function webhook(Request $request)
