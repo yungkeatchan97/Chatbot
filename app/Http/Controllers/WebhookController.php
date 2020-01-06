@@ -151,11 +151,11 @@ class WebhookController extends Controller
             return $this->studentfallback;
         }
         $lack = $this->findRequiredLack($matricNumber);
-        if (empty($lack) && $student->creditHour >= $student->handbook->total_credit_hour){
+        if (empty($lack) && $student->creditHour() >= $student->handbook->total_credit_hour){
             $response = "Yes, you can graduate";
         }
         elseif (empty($lack)){
-            $response = "No, you cannot graduate. You need at least ".$student->handbook->total_credit_hour." to graduate but you have only ".$student->creditHour;
+            $response = "No, you cannot graduate. You need at least ".$student->handbook->total_credit_hour." to graduate but you have only ".$student->creditHour();
         }else{
             $response = "No, you cannot graduate. You still need to take the following subjects:\n";
             foreach ($lack as $item){
@@ -171,7 +171,7 @@ class WebhookController extends Controller
         if (is_null($student)){
             return $this->studentfallback;
         }
-        $response = "These are the subjects you have registered:\n";
+        $response = "You current total credit hour is ".$student->creditHour()."\nThese are the subjects you have registered:\n";
         $subjects = $student->registeredSubjects;
         foreach ($subjects as $subject){
             $response .= $subject->code."   ".$subject->name."\n";

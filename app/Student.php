@@ -31,7 +31,7 @@ class Student extends Model
 
     public function creditHour(){
         $hour = 0;
-        foreach ($this->registeredSubjects() as $subject){
+        foreach ($this->registeredSubjects as $subject){
             $hour += $subject->credit_hour;
         }
         return $hour;
