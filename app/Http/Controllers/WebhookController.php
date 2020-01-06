@@ -45,9 +45,27 @@ class WebhookController extends Controller
     private function getStudents($matricNumber){
         $student = Student::where('matric_no', '=', $matricNumber)->first();
         if (is_null($student)){
-            return "student not found";
+            return "I'm sorry but the matric number you provided does not match any record in our database. Please try again.\n
+            You can still ask questions such as:\n
+            1. Course Structure\n
+            2. Registration\n
+            3. Change Programme\n
+            4. Credit Transfer\n
+            5. Late Registration\n
+            6. Registration credit per semester\n
+            7. Academic Adviser";
         }
-        return json_encode($student);
+        return "How can I help you? You could also ask other questions which are not listed as below.\n
+            1. Course Structure\n
+            2. Registration\n
+            3. Change Programme\n
+            4. Credit Transfer\n
+            5. Late Registration\n
+            6. Registration credit per semester\n
+            7. Academic Adviser\n
+            8. My Handbook\n
+            9. Can I Graduate?\n
+            10. Can I Register New Subjects now?";
     }
 
     private function getHandbook($matricNumber){
