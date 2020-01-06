@@ -189,6 +189,7 @@ class WebhookController extends Controller
         if (is_null($student)){
             return $this->studentfallback;
         }
+        $SubjectCode = strtolower($SubjectCode);
         $subject = Subject::where('code', '=', $SubjectCode)->first();
         if (is_null($subject)){
             return "I'm sorry but the subject code you provided does not match any record in our database. Please try again.";
