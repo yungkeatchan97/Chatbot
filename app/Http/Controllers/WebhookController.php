@@ -31,7 +31,8 @@ class WebhookController extends Controller
     ."7. Academic Adviser\n"
     ."8. My Handbook\n"
     ."9. Can I Graduate?\n"
-    ."10. Can I Register New Subjects now?";
+    ."10. Can I Register New Subjects now?\n"
+    ."11. View My Registered Subjects";
 
     public function webhook(Request $request)
     {
@@ -56,7 +57,7 @@ class WebhookController extends Controller
                 return $this->getHandbook($outputContexts['MatricNumber']);
             case 'canGraduate':
                 return $this->canGraduate($outputContexts['MatricNumber']);
-            case 'RegisterNewSubject.WhatSubject':
+            case 'mySubjects':
                 return $this->whatSubject($outputContexts['MatricNumber']);
             case 'RegisterNewSubject.Register':
                 return $this->register($outputContexts['MatricNumber'], $parameters['SubjectCode']);
@@ -82,17 +83,17 @@ class WebhookController extends Controller
         $course = Course::where('code', '=', $handbook->course_code)->first();
         $requiredSubjects = $handbook->requiredSubjects;
         $optionalSubjects = $handbook->optionalSubjects;
-        $response = "Your handbook:\nCourse : ".$course->name
+        $response = "*Your handbook:*\nCourse : ".$course->name
             ."\nYear : ".$handbook->year
-            ."\nRequired Subjects:";
+            ."\n\n*Required Subjects:*\n";
         foreach ($requiredSubjects as $subject) {
             $response .= $subject->code."   ".$subject->name."\n";
         }
-        $response .= "Optional Subjects:";
+        $response .= "\n*Optional Subjects:*\n";
         foreach ($optionalSubjects as $subject) {
-            $response .= $subject->code."   ".$subject->name;
+            $response .= $subject->code."   ".$subject->name."\n";
         }
-        return $response;
+        return $response."\n".$this->studentfallbackwithmatric;
     }
 
     private function findRequiredLack($matricNumber)
@@ -161,7 +162,7 @@ class WebhookController extends Controller
                 $response .= $item->code."   ".$item->name."\n";
             }
         };
-        return $response;
+        return $response."\n".$this->studentfallbackwithmatric;
     }
 
     private function whatSubject($matricNumber)
@@ -170,17 +171,22 @@ class WebhookController extends Controller
         if (is_null($student)){
             return $this->studentfallback;
         }
+        $response = "These are the subjects you have registered:\n";
+        $subjects = $student->registeredSubjects;
+        foreach ($subjects as $subject){
+            $response .= $subject->code."   ".$subject->name."\n";
+        }
         $lack = $this->findRequiredLack($matricNumber);
-        $response = "These are subjects that you MUST take but haven't:";
+        $response .= "\nThese are subjects that you *MUST* take but haven't:";
         foreach ($lack as $item){
             $response .= $item->code."   ".$item->name."\n";
         }
         $lack = $this->findOptionalLack($matricNumber);
-        $response .= "These are subjects that you CAN take but haven't:";
+        $response .= "\nThese are subjects that you *CAN* take but haven't:";
         foreach ($lack as $item){
             $response .= $item->code."   ".$item->name."\n";
         }
-        return $response;
+        return $response."\n".$this->studentfallbackwithmatric;
     }
 
     private function register($matricNumber, $SubjectCode)
@@ -196,7 +202,7 @@ class WebhookController extends Controller
         }
         foreach ($student->registeredSubjects as $registeredSubject){
             if ($registeredSubject->code == $subject->code){
-                return "I'm sorry but you have registered this subject";
+                return "I'm sorry but you have registered this subject. Please try again.";
             }
         }
         if (is_null(DB::transaction(function () use ($subject, $student) {
@@ -207,9 +213,9 @@ class WebhookController extends Controller
                     'result' => 0
                 ]);
         }))){
-            return "You have successfully registered ".$SubjectCode;
+            return "You have successfully registered ".$SubjectCode."\n".$this->studentfallbackwithmatric;
         }else{
-            return "Registration failed. Please contact Academic Division for more details.";
+            return "Registration failed. Please contact Academic Division for more details."."\n".$this->studentfallbackwithmatric;
         }
     }
 
@@ -225,7 +231,7 @@ class WebhookController extends Controller
     }
 
     private function defaultFallback(){
-        return "I can't understand";
+        return "I can't understand"."\n".$this->studentfallbackwithmatric;
     }
 
 }
