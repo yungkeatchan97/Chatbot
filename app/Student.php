@@ -28,4 +28,12 @@ class Student extends Model
     public function handbook(){
         return $this->belongsTo('App\Handbook', 'course_code','course_code')->where('year', '=', $this->starting_year);
     }
+
+    public function creditHour(){
+        $hour = 0;
+        foreach ($this->registeredSubjects() as $subject){
+            $hour += $subject->credit_hour;
+        }
+        return $hour;
+    }
 }

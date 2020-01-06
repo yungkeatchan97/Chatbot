@@ -31,6 +31,8 @@ class WebhookController extends Controller
                 return $this->getStudents($parameters['MatricNumber']);
             case 'getHandbook':
                 return $this->getHandbook($outputContexts['MatricNumber']);
+            case 'canGraduate':
+                return $this->canGraduate($outputContexts['MatricNumber']);
             case 'getCourse':
                 return $this->getCourse();
             case 'getSubject':
@@ -63,6 +65,33 @@ class WebhookController extends Controller
         foreach ($optionalSubjects as $subject) {
             $response .= $subject->code."   ".$subject->name;
         }
+        return $response;
+    }
+
+    private function canGraduate($matricNumber)
+    {
+        $student = Student::where('matric_no', '=', $matricNumber)->first();
+        $registereds = $student->registeredSubjects;
+        $neededs = $student->handbook->requiredSubjects;
+        $lack = array();
+        foreach ($neededs as $needed){
+            $found = false;
+            foreach ($registereds as $registered){
+                if ($needed->id == $registered->id){
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found){
+                array_push($lack, $needed);
+            }
+        }
+        if (empty($lack) && $student->creditHour >= $student->handbook->total_credit_hour){
+            $response = "Yes, you can graduate";
+        }
+        else{
+            $response = "No, you cannot graduate";
+        };
         return $response;
     }
 
